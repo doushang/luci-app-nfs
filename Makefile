@@ -19,16 +19,15 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/luci-app-nfs
-	SECTION:=LuCI
+define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for NFS
 	PKGARCH:=all
-	DEPENDS:=+nfs-kernel-server-utils +luci
+	DEPENDS:=+nfs-kernel-server +nfs-kernel-server-utils
 endef
 
-define Package/luci-app-nfs/description
+define Package/$(PKG_NAME)/description
 	LuCI Support for NFS.
 endef
 
@@ -43,7 +42,7 @@ endef
 define Build/Compile
 endef
 
-define Package/luci-app-nfs/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	if [ -f /etc/uci-defaults/luci-nfs ]; then
@@ -87,4 +86,4 @@ define Package/luci-app-nfs/install
 	$(INSTALL_BIN) ./files/root/etc/uci-defaults/luci-nfs $(1)/etc/uci-defaults/luci-nfs
 endef
 
-$(eval $(call BuildPackage,luci-app-nfs))
+$(eval $(call BuildPackage,$(PKG_NAME)))
